@@ -3,8 +3,7 @@
 import os
 from directory import Directory
 
-def getFolderSize(folder):
-
+def getFolderSizeOld(folder):
     total = 0
     tempTotal = 0
     errorNum = 0
@@ -19,8 +18,27 @@ def getFolderSize(folder):
                     print(item.path + ": " + humanReading(tempTotal))
                 tempTotal=0
     except Exception as e:
-        errorNum+=1
+        print("Access Denied")
     return total
+
+def getFolderSize(folder, dirList):
+    currDir = Directory(folder, 0)
+    currDir.size+=getFolderSizeHelper(folder, dirList, currDir, 1)
+    return currDir.size
+
+def getFolderSizeHelper(folder, dirList, currDir, nested):
+    for item in os.scandir(folder):
+        if item.is_file():
+            currDir.size+=item.stat().st_size
+        elif item.is_dir():
+            subDir = Directory(item.path[(item.path).rfind('/'):], (nested + 1))
+            currDir.size += getFolderSizeHelper(item.path, dirList, subDir, subDir.size)
+
+    dirList.append(currDir)
+    return  currDir.size
+
+
+
 
 
 def humanReading(num):
@@ -37,4 +55,12 @@ def humanReading(num):
     return formatStr % (num, label[i])
 
 
-print(humanReading(getFolderSize("/home/matthew")))
+#print(humanReading(getFolderSize("/home/matthew")))
+
+directories = []
+print(humanReading(getFolderSize("/home/matthew", directories)))
+for dir in directories:
+#    if "GB" in humanReading(dir.size) or "MB" in humanReading(dir.size):
+    for i in range (0, dir.nested):
+        print("-", end =" ")
+    print(dir.name + ": " + humanReading(dir.size))
