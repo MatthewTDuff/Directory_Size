@@ -1,0 +1,5 @@
+A small project meant to mess with some python libraries, github versioning, and how to convert a python program to use OOP design.
+
+The old code before the redesign remains in order to show how clean and easy the OOP made this program.
+
+Additionally, the OOP design moved it from an iterative to recursive solution.
