@@ -3,10 +3,12 @@
 import os
 from directory import Directory
 
+
+# Old folder size redesign
+# "Brute force" solution, no room for expanding capabilities
 def getFolderSizeOld(folder):
     total = 0
     tempTotal = 0
-    errorNum = 0
     try:
         for item in os.scandir(folder):
             if item.is_file():
@@ -21,11 +23,14 @@ def getFolderSizeOld(folder):
         print("Access Denied")
     return total
 
+#Function to get the ball rolling
 def getFolderSize(folder, dirList):
     currDir = Directory(folder, 0)
     currDir.size+=getFolderSizeHelper(folder, dirList, currDir, 1)
     return currDir.size
 
+# Helper function that recursively retrieves information of each subdirectory, totals them, and returns the size.
+# The final directory object forms a non-binary tree.
 def getFolderSizeHelper(folder, dirList, currDir, nested):
     for item in os.scandir(folder):
         if item.is_file():
@@ -40,7 +45,7 @@ def getFolderSizeHelper(folder, dirList, currDir, nested):
 
 
 
-
+# Converts file sizes to make them readable, essentially what -H does for du
 def humanReading(num):
     label = ['B', 'KB', 'MB', 'GB', 'TB']
     formatStr = "%i %s"

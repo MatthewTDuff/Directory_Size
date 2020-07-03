@@ -3,3 +3,6 @@ A small project meant to mess with some python libraries, github versioning, and
 The old code before the redesign remains in order to show how clean and easy the OOP made this program.
 
 Additionally, the OOP design moved it from an iterative to recursive solution.
+
+This function essentially does what "du" does, but makes it easier to read and condenses it.
+Technically could have been done with careful regex and some elbow grease, but that's not fun.
